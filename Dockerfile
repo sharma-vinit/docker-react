@@ -1,20 +1,17 @@
 # Stage 1: Build Stage
 FROM node:16-alpine as builder
 
-# Set the user to 'node' for better security
-USER node
-
 # Create and set the working directory
 WORKDIR '/app'
 
 # Copy the package.json and package-lock.json files to the working directory
-COPY --chown=node:node package*.json ./
+COPY package*.json .
 
 # Install dependencies
 RUN npm install
 
 # Copy the rest of the application code
-COPY --chown=node:node . .
+COPY . .
 
 # Build the application
 RUN npm run build
