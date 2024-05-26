@@ -1,9 +1,6 @@
 # Stage 1: Build Stage
 FROM node:16-alpine as builder
 
-ARG REACT_APP_IMAGE_TAG
-ENV REACT_APP_IMAGE_TAG=$REACT_APP_IMAGE_TAG
-
 # Create and set the working directory
 WORKDIR '/app'
 

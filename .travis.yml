@@ -1,38 +1,18 @@
-# Use sudo-enabled infrastructure
 sudo: required
+language: generic
 
-# Specify that we need Docker as a service
 services:
   - docker
-
-# Environment variables
-env:
-  global:
-    - IMAGE_TAG="build-${TRAVIS_COMMIT}-$(date +'%Y%m%d%H%M%S')-$(date +%s)"
-    - REACT_APP_IMAGE_TAG=${IMAGE_TAG}
 
 # Commands to run before the main build
 before_install:
   # Build the Docker image using the Dockerfile.dev file and tag it
-  - docker build -t vinit003/docker-react:${IMAGE_TAG} --build-arg REACT_APP_IMAGE_TAG=${REACT_APP_IMAGE_TAG} -f Dockerfile.dev .
-  # Display Docker image details
-  - docker images vinit003/docker-react:${IMAGE_TAG}
-  - docker ps
-  
+  - docker build -t vinit003/docker-react -f Dockerfile.dev .
 
 # Commands to run the actual build and tests
 script:
-  # Display Node, NPM, and React versions
-  - docker run vinit003/docker-react:${IMAGE_TAG} node --version
-  - docker run vinit003/docker-react:${IMAGE_TAG} npm --version
-  - docker run vinit003/docker-react:${IMAGE_TAG} npm list react
-  # Run the tests inside the Docker container created from the image built above
-  - docker run -e CI=true vinit003/docker-react:${IMAGE_TAG} npm run test
-
-# Display IMAGE_TAG and all environment variables
-before_deploy:
-  - echo "IMAGE_TAG=${IMAGE_TAG}"
-  - printenv
+  # Run the tests inside a Docker container created from the image built above
+  - docker run -e CI=true vinit003/docker-react npm run test
 
 # Deploy to AWS Elastic Beanstalk
 deploy:
@@ -46,6 +26,3 @@ deploy:
     branch: main
   access_key_id: "$AWS_ACCESS_KEY"
   secret_access_key: "$AWS_SECRET_KEY"
-  version: "${IMAGE_TAG}"
-  skip_cleanup: true
-  wait-until-deployed: true
