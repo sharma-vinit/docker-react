@@ -17,26 +17,32 @@ before_install:
   - echo "Starting build for commit: ${TRAVIS_COMMIT}"
   - echo "Date and Time: $(date)"
   
-  # Build the Docker image using the Dockerfile.dev file and tag it
+  # Echo building Docker image with tag
   - echo "Building Docker image with tag: ${IMAGE_TAG}"
+  
   # Build the Docker image using the Dockerfile.dev file and tag it
   - docker build -t vinit003/docker-react:${IMAGE_TAG} --build-arg REACT_APP_IMAGE_TAG=${REACT_APP_IMAGE_TAG} -f Dockerfile.dev .
+  
+  # Echo that Docker build completed and show Docker image details
   - echo "Docker build completed."
-  # Display Docker image details
   - docker images vinit003/docker-react:${IMAGE_TAG}
 
 # Commands to run the actual build and tests
 script:
-  # Displaying Node, NPM versions and React version for debugging
+  # Echo checking versions for debugging
   - echo "Checking Node and NPM versions"
+  
+  # Displaying Node, NPM versions
   - docker run vinit003/docker-react:${IMAGE_TAG} node --version
   - docker run vinit003/docker-react:${IMAGE_TAG} npm --version
   
-  # Display React version
+  # Display React version or echo not found if the command fails
   - docker run vinit003/docker-react:${IMAGE_TAG} npm list react || echo "React not found"
   
-  # Run tests and display the result
+  # Echo running tests in Docker container
   - echo "Running tests in Docker container"
+  
+  # Run tests and display the result
   - docker run -e CI=true vinit003/docker-react:${IMAGE_TAG} npm run test
   - echo "Tests completed."
 
