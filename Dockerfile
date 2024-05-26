@@ -17,13 +17,10 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Production Stage
-FROM nginx:1.26.0
+FROM nginx
 
 # Expose port 80
 EXPOSE 80
 
 # Copy the build output from the builder stage to the Nginx html directory
 COPY --from=builder /home/node/app/build /usr/share/nginx/html
-
-# Start Nginx server
-CMD ["nginx", "-g", "daemon off;"]
