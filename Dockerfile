@@ -23,4 +23,4 @@ FROM nginx
 EXPOSE 80
 
 # Copy the build output from the builder stage to the Nginx html directory
-COPY --from=builder /home/node/app/build /usr/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html
