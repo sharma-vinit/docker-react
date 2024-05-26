@@ -15,7 +15,7 @@ env:
 before_install:
   # Echo environment variables to log for verification
   - echo "Starting build for commit:" ${TRAVIS_COMMIT}
-  - echo "Date and Time: $(date)"
+  - echo "Date and Time:" $(date)
   
   # Echo building Docker image with tag
   - echo "Building Docker image with tag:" ${IMAGE_TAG}
