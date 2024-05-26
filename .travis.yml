@@ -9,7 +9,7 @@ services:
 env:
   global:
     - IMAGE_TAG="build-${TRAVIS_COMMIT}-$(date +'%Y%m%d%H%M%S')"
-    - REACT_APP_IMAGE_TAG=${IMAGE_TAG}
+    - REACT_APP_IMAGE_TAG="${IMAGE_TAG}"
 
 # Commands to run before the main build
 before_install:
@@ -62,9 +62,9 @@ deploy:
   bucket_path: "frontend"
   on:
     branch: main
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
-  version: ${IMAGE_TAG}
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_KEY"
+  version: "${IMAGE_TAG}"
   skip_cleanup: true
   wait-until-deployed: true
 
