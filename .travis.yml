@@ -1,18 +1,50 @@
+# Use sudo-enabled infrastructure
 sudo: required
-language: generic
 
+# Specify that we need Docker as a service
 services:
   - docker
 
+# Environment variables
+env:
+  global:
+    - IMAGE_TAG="build-${TRAVIS_COMMIT}-$(date +'%Y%m%d%H%M%S')"
+    - REACT_APP_IMAGE_TAG=${IMAGE_TAG}
+
 # Commands to run before the main build
 before_install:
+  # Echo environment variables to log for verification
+  - echo "Starting build for commit: ${TRAVIS_COMMIT}"
+  - echo "Date and Time: $(date)"
+  
   # Build the Docker image using the Dockerfile.dev file and tag it
-  - docker build -t vinit003/docker-react -f Dockerfile.dev .
+  - echo "Building Docker image with tag: ${IMAGE_TAG}"
+  # Build the Docker image using the Dockerfile.dev file and tag it
+  - docker build -t vinit003/docker-react:${IMAGE_TAG} --build-arg REACT_APP_IMAGE_TAG=${REACT_APP_IMAGE_TAG} -f Dockerfile.dev .
+  - echo "Docker build completed."
+  # Display Docker image details
+  - docker images vinit003/docker-react:${IMAGE_TAG}
 
 # Commands to run the actual build and tests
 script:
-  # Run the tests inside a Docker container created from the image built above
-  - docker run -e CI=true vinit003/docker-react npm run test
+  # Displaying Node, NPM versions and React version for debugging
+  - echo "Checking Node and NPM versions"
+  - docker run vinit003/docker-react:${IMAGE_TAG} node --version
+  - docker run vinit003/docker-react:${IMAGE_TAG} npm --version
+  
+  # Display React version
+  - docker run vinit003/docker-react:${IMAGE_TAG} npm list react || echo "React not found"
+  
+  # Run tests and display the result
+  - echo "Running tests in Docker container"
+  - docker run -e CI=true vinit003/docker-react:${IMAGE_TAG} npm run test
+  - echo "Tests completed."
+
+# Display IMAGE_TAG and all environment variables before deployment
+before_deploy:
+  - echo "Preparing to deploy. IMAGE_TAG=${IMAGE_TAG}"
+  - echo "Current Environment Variables:"
+  - printenv | sort
 
 # Deploy to AWS Elastic Beanstalk
 deploy:
@@ -24,5 +56,11 @@ deploy:
   bucket_path: "frontend"
   on:
     branch: main
-  access_key_id: "$AWS_ACCESS_KEY"
-  secret_access_key: "$AWS_SECRET_KEY"
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  version: ${IMAGE_TAG}
+  skip_cleanup: true
+  wait-until-deployed: true
+
+after_deploy:
+  - echo "Deployment completed successfully."

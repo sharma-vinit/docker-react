@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    image: "frontend"
+    image: "frontend:${IMAGE_TAG}"
     ports:
       - "3000:3000"
     volumes:
@@ -19,7 +19,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    image: "frontend_test"
+    image: "frontend_test:${IMAGE_TAG}"
     volumes:
       - .:/home/node/app
       - /home/node/app/node_modules

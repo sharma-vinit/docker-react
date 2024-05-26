@@ -17,6 +17,7 @@ function App() {
         >
           Learn React
         </a>
+        <p>Current Image Tag: {process.env.REACT_APP_IMAGE_TAG}</p>
         <p>This is working!</p>
         <p>This is Awesome!</p>
       </header>
