@@ -8,14 +8,16 @@ services:
 # Environment variables
 env:
   global:
-    - IMAGE_TAG="build-${TRAVIS_COMMIT}"
+    - IMAGE_TAG="build-${TRAVIS_COMMIT}-$(date +'%Y%m%d%H%M%S')-$(date +%s)"
+    - REACT_APP_IMAGE_TAG=${IMAGE_TAG}
 
 # Commands to run before the main build
 before_install:
   # Build the Docker image using the Dockerfile.dev file and tag it
-  - docker build -t vinit003/docker-react:${IMAGE_TAG} -f Dockerfile.dev .
+  - docker build -t vinit003/docker-react:${IMAGE_TAG} --build-arg REACT_APP_IMAGE_TAG=${REACT_APP_IMAGE_TAG} -f Dockerfile.dev .
   # Display Docker image details
   - docker images vinit003/docker-react:${IMAGE_TAG}
+  
 
 # Commands to run the actual build and tests
 script:
