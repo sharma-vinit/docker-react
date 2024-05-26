@@ -1,5 +1,5 @@
 # Stage 1: Build Stage
-FROM node:lts-alpine3.20 as builder
+FROM node:16-alpine as builder
 
 # Set the user to 'node' for better security
 USER node
