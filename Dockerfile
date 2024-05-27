@@ -14,7 +14,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Copy the rest of the application code
 COPY . .
@@ -24,7 +24,7 @@ RUN npm run build
 
 # Stage 2: Production Stage
 # Use a specific version of nginx
-FROM nginx:1.21-alpine  
+FROM nginx:1.26.0 
 # FROM nginx
 
 # Expose port 80 for the container

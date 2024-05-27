@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# Project Structure and Key Files Explanation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview of Project Structure
 
-## Available Scripts
+This section provides a detailed look at the major directories and files in a Dockerized React application configured for CI/CD with Travis CI and deployment to AWS Elastic Beanstalk.
 
-In the project directory, you can run:
+### `src/`
+Contains the source code of the React application, including components and the entry point file (`index.js`).
 
-### `npm start`
+### `public/`
+Houses static assets like HTML files, images, and icons, which are used directly without needing processing by Webpack.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### `Dockerfile` and `Dockerfile.dev`
+Docker configuration files that define how Docker images for production and development are built.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### `docker-compose.yml` and `docker-compose-dev.yml`
+Docker Compose files that orchestrate the application services for production and development environments respectively.
 
-### `npm test`
+### `.travis.yml`
+The Travis CI configuration file that automates the building, testing, and deploying of the application.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### `package.json` and `package-lock.json`
+Node.js configuration files that manage project dependencies and define scripts for running the application.
 
-### `npm run build`
+### `.dockerignore` and `.gitignore`
+Files that specify which files and directories should be ignored by Docker and Git, respectively.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### `update_env_tag.sh`
+A shell script used to automate updates to environment variables or configuration files before deployment.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `README.md`
+Provides documentation for the project, which includes setup instructions, project description, and other relevant information.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Detailed Explanation of Key Files
 
-### `npm run eject`
+### Docker Configuration Files
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### `Dockerfile` (Production)
+- **Base Image**: `node:16-alpine`—a minimal environment ideal for production.
+- **Build Process**: Includes copying application files, installing dependencies, and compiling the React app into static files.
+- **Nginx Stage**: Uses Nginx to serve the static files, optimizing for performance and security.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### `Dockerfile.dev` (Development)
+- **Base Image**: `node:16-alpine`.
+- **User Configuration**: Runs as non-root user (`node`) to enhance security.
+- **Development Setup**: Optimized for live development with commands to start the application.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Docker Compose Files
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### `docker-compose.yml` (Production)
+- **Configuration**: Builds and runs the Docker container using the production Dockerfile, mapping port 80.
 
-## Learn More
+#### `docker-compose-dev.yml` (Development)
+- **Configuration**: Sets up a development environment with live code updating and additional services for running tests.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### `.travis.yml`
+- **Services**: Specifies Docker as a required service.
+- **Scripts**: Includes pre-build scripts to set configurations, and defines steps for building, testing, and deploying the application.
+- **Deployment**: Automates deployment to AWS Elastic Beanstalk with environment variable configuration and secure handling of AWS credentials.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Package Management Files
 
-### Code Splitting
+#### `package.json`
+- **Dependencies**: Lists all necessary project dependencies and development-specific tools.
+- **Scripts**: Defines lifecycle scripts such as `start`, `build`, and `test`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Ignore Files
 
-### Analyzing the Bundle Size
+#### `.dockerignore` and `.gitignore`
+- **Purpose**: Exclude files from Docker build contexts and Git repositories to maintain clean and efficient workflows.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Utility Scripts
 
-### Making a Progressive Web App
+#### `update_env_tag.sh`
+- **Functionality**: Likely updates environment configurations dynamically, crucial for ensuring deployments are performed with correct settings.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

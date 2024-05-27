@@ -10,3 +10,7 @@ services:
       - "80:80"
     environment:
       - REACT_APP_IMAGE_TAG=${REACT_APP_IMAGE_TAG}  # Pass environment variable
+    deploy:
+      resources:
+        limits:
+          memory: 2048M  # Adjust as needed
