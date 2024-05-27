@@ -1,5 +1,5 @@
 # Stage 1: Build Stage
-FROM node:16-alpine as builder
+FROM node:20-alpine as builder
 
 # Declare the ARG for use in build-time (if it's coming from .travis.yml)
 ARG REACT_APP_IMAGE_TAG
@@ -24,8 +24,8 @@ RUN npm run build
 
 # Stage 2: Production Stage
 # Use a specific version of nginx
-# FROM nginx:1.21-alpine  
-FROM nginx
+FROM nginx:1.21-alpine  
+# FROM nginx
 
 # Expose port 80 for the container
 EXPOSE 80
@@ -34,4 +34,4 @@ EXPOSE 80
 COPY --from=builder /app/build /usr/share/nginx/html
 
 # Provide a default command for running the container, Nginx runs by default so CMD is not strictly necessary
-# CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
