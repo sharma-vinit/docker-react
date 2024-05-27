@@ -9,7 +9,7 @@ services:
 env:
   global:
     - IMAGE_TAG="build-${TRAVIS_COMMIT}-$(date +'%Y%m%d%H%M%S')"
-    - REACT_APP_IMAGE_TAG="${IMAGE_TAG}""
+    - REACT_APP_IMAGE_TAG="${IMAGE_TAG}"
 
 # Commands to run before the main build
 before_install:
