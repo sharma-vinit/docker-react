@@ -4,5 +4,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        REACT_APP_IMAGE_TAG: ${REACT_APP_IMAGE_TAG}  # Ensure this is correct
     ports:
       - "80:80"
+    environment:
+      - REACT_APP_IMAGE_TAG=${REACT_APP_IMAGE_TAG}  # Pass environment variable

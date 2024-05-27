@@ -1,8 +1,10 @@
 # Stage 1: Build Stage
 FROM node:16-alpine as builder
 
-# Accept the REACT_APP_IMAGE_TAG argument during build
+# Declare the ARG for use in build-time (if it's coming from .travis.yml)
 ARG REACT_APP_IMAGE_TAG
+
+# Set it as an ENV so it's available at runtime in the environment
 ENV REACT_APP_IMAGE_TAG=$REACT_APP_IMAGE_TAG
 
 # Create and set the working directory

@@ -19,6 +19,9 @@ before_install:
   
   # Echo building Docker image with tag
   - echo "Building Docker image with tag:" ${IMAGE_TAG}
+
+  # Echo react app image tag
+  - echo "React app image tag:" ${REACT_APP_IMAGE_TAG}
   
   # Build the Docker image using the Dockerfile.dev file and tag it
   - docker build -t vinit003/docker-react:${IMAGE_TAG} --build-arg REACT_APP_IMAGE_TAG=${REACT_APP_IMAGE_TAG} -f Dockerfile.dev .
