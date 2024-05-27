@@ -1,7 +1,11 @@
+import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
+  // Log the environment variable for debugging
+  console.log("REACT_APP_IMAGE_TAG:", process.env.REACT_APP_IMAGE_TAG);
+
   return (
     <div className="App">
       <header className="App-header">
