@@ -8,8 +8,9 @@ services:
 # Environment variables
 env:
   global:
+    # Use quotes for variable expansion
     - IMAGE_TAG="build-${TRAVIS_COMMIT}-$(date +'%Y%m%d%H%M%S')"
-    - REACT_APP_IMAGE_TAG="${IMAGE_TAG}"
+    - REACT_APP_IMAGE_TAG="build-${TRAVIS_COMMIT}-$(date +'%Y%m%d%H%M%S')"  
 
 # Commands to run before the main build
 before_install:
