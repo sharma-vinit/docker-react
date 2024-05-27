@@ -10,7 +10,7 @@ env:
   global:
     # Use quotes for variable expansion
     - IMAGE_TAG="build-${TRAVIS_COMMIT}-$(date +'%Y%m%d%H%M%S')"
-    - REACT_APP_IMAGE_TAG="build-${TRAVIS_COMMIT}-$(date +'%Y%m%d%H%M%S')"  
+    - REACT_APP_IMAGE_TAG="${IMAGE_TAG}"
 
 # Commands to run before the main build
 before_install:
@@ -23,6 +23,16 @@ before_install:
 
   # Echo react app image tag
   - echo "React app image tag:" ${REACT_APP_IMAGE_TAG}
+  
+  # Update REACT_APP_IMAGE_TAG in .ebextensions/environment.config
+  # Make sure the script has executable permissions
+  - chmod +x update_env_tag.sh
+
+  #Execute update_env_tag
+  - ./update_env_tag.sh
+  
+  # View the content to verify the update
+  - cat .ebextensions/environment.config  
   
   # Build the Docker image using the Dockerfile.dev file and tag it
   - docker build -t vinit003/docker-react:${IMAGE_TAG} --build-arg REACT_APP_IMAGE_TAG=${REACT_APP_IMAGE_TAG} -f Dockerfile.dev .
