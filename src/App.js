@@ -24,6 +24,7 @@ function App() {
         <p>Current Image Tag: {process.env.REACT_APP_IMAGE_TAG}</p>
         <p>This is working!</p>
         <p>This is Awesome!</p>
+        <p>I was changed on the feature branch</p>
       </header>
     </div>
   );
