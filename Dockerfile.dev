@@ -1,5 +1,7 @@
 # Use the latest Node.js version based on Alpine Linux
-FROM node:20-alpine
+# FROM node:lts-alpine
+# Link: https://stackoverflow.com/questions/75338297/docker-build-on-nodealpine-lts-suddenly-not-working-anymore
+FROM node@sha256:db4b1d98b5a92263f2b9221c4d7930ce6b02f9834926c8b6174bfed2913cea16
 
 # Set the user to 'node' for better security
 USER node
