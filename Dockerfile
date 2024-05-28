@@ -1,5 +1,5 @@
 # Stage 1: Build Stage
-FROM node:lts-alpine as builder
+FROM node:16-alpine as builder
 # FROM node@sha256:db4b1d98b5a92263f2b9221c4d7930ce6b02f9834926c8b6174bfed2913cea16 as builder
 
 # Declare the ARG for use in build-time (if it's coming from .travis.yml)
